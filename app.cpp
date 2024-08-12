@@ -51,29 +51,33 @@ public:
     }
 };
 
-int main() {
-
-    // Multiple objects of Car class
-    Car cars[] = {
-        Car("Toyota", "Corolla", 1500),
-        Car("Honda", "Civic", 1600),
-        Car("Ford", "Focus", 1700),
-        Car("Citroen", "Basalt", 1400),
-        Car("Tata", "Curvv EV", 1300),
-        Car("Mahindra", "XUV 3XO", 1600),
-        Car("Maruti", "Fronx", 1300),
-        Car("Tata", "Punch", 1400)
-    };
-    
-    int numberOfCars = sizeof(cars) / sizeof(cars[0]);
-
-    // Displaying the available cars
+void displayAllCars(Car cars[], int numberOfCars) {
     cout << "Available cars:\n";
     for (int i = 0; i < numberOfCars; i++) {
         cout << i + 1 << ". ";
         cars[i].displayCarDetails();
         cout << "----------------------" << endl;
     }
+}
+
+int main() {
+
+    // Array of objects
+    Car cars[] = {
+        Car("Tata", "Curvv EV", 1300),
+        Car("Maruti", "Fronx", 1300),
+        Car("Tata", "Punch", 1400),
+        Car("Citroen", "Basalt", 1400),
+        Car("Toyota", "Corolla", 1500),
+        Car("Honda", "Civic", 1600),
+        Car("Mahindra", "XUV 3XO", 1600),
+        Car("Ford", "Focus", 1700)
+    };
+    
+    int numberOfCars = sizeof(cars) / sizeof(cars[0]);
+
+    // Displaying the available cars
+    displayAllCars(cars, numberOfCars);
 
     // User's option to choose the car
     int choice;
