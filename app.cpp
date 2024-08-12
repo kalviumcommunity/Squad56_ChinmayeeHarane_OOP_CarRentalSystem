@@ -19,17 +19,21 @@ public:
     double basePrice;
 
     // constructer fir class Car
-    Car(string b, string m, double price) : brand(b), model(m), basePrice(price) {}
+    Car(string brand, string model, double basePrice){
+        this->brand = brand;
+        this->model = model;
+        this->basePrice = basePrice;
+    }
 
     // Funtion to calculate rental price per hour
     double getRentalPricePerHour() {
-        return basePrice + 300.0;
+        return this->basePrice + 300.0;
     }
 
     // Funtion to Display the details of the cars
     void displayCarDetails() {
-        cout << "Brand: " << brand << "\nModel: " << model << "\nBase Price: ₹" << basePrice 
-             << "\nRental Price per Hour: ₹" << getRentalPricePerHour() << endl;
+        cout << "Brand: " << this->brand << "\nModel: " << this->model << "\nBase Price: ₹" << this->basePrice 
+             << "\nRental Price per Hour: ₹" << this->getRentalPricePerHour() << endl;
     }
 };
 
@@ -41,9 +45,9 @@ public:
 
     // Funtion to Display invoice
     void rentCar(Car car) {
-        cout << "Customer: " << name << " has rented " << car.brand << " " << car.model 
-             << " for " << hours << " hours." << endl;
-        cout << "Total Rental Cost: ₹" << car.getRentalPricePerHour() * hours << endl;
+        cout << "Customer: " << this->name << " has rented " << car.brand << " " << car.model 
+             << " for " << this->hours << " hours." << endl;
+        cout << "Total Rental Cost: ₹" << car.getRentalPricePerHour() * this->hours << endl;
     }
 };
 
