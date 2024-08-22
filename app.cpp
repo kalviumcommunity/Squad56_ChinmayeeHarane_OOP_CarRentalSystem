@@ -3,9 +3,9 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
-#include <unistd.h>
-#include <ctime>
-#include <fstream>
+// #include <unistd.h>
+// #include <ctime>
+// #include <fstream>
 #include <iomanip>
 
 using namespace std;
@@ -18,11 +18,20 @@ public:
     string brand;
     double basePrice;
 
+    static int totalCars;
+
     // constructer fir class Car
     Car(string brand = "", string model = "", double basePrice = 0.0){
         this->brand = brand;
         this->model = model;
         this->basePrice = basePrice;
+
+        totalCars++;
+    }
+
+    // Decrement totalCars when a car object is deleted
+    ~Car() {
+        totalCars--; 
     }
 
     // Funtion to calculate rental price per hour
@@ -35,7 +44,14 @@ public:
         cout << "Brand: " << this->brand << "\nModel: " << this->model << "\nBase Price: ₹" << this->basePrice 
              << "\nRental Price per Hour: ₹" << this->getRentalPricePerHour() << endl;
     }
+
+    // Static function to display the total number of cars
+    static void displayTotalCars() {
+        cout << "Total cars in the system: " << totalCars << endl;
+    }
 };
+
+int Car::totalCars = 0;
 
 // Class Customer
 class Customer {
@@ -118,6 +134,8 @@ int main() {
     cars[6] = new Car("Mahindra", "XUV 3XO", 1600);
     cars[7] = new Car("Ford", "Focus", 1700);
     
+    Car::displayTotalCars();
+
     // Check for admin
     char isAdmin;
     cout << "Are you an admin? (y/n): ";
@@ -138,6 +156,9 @@ int main() {
 
     // Displaying the available cars
     displayAllCars(cars, numberOfCars);
+
+    // Display the updated total number of cars
+    Car::displayTotalCars();
 
     // Object of Customer class
     Customer customer1;
