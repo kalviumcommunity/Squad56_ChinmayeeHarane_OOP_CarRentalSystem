@@ -32,12 +32,12 @@ public:
         return basePrice + 300.0;
     }
 
-    // Getter for brand
+    // Getter for brand (marked as const)
     string getBrand() const {
         return brand;
     }
 
-    // Getter for model
+    // Getter for model (marked as const)
     string getModel() const {
         return model;
     }
@@ -112,7 +112,7 @@ public:
 
     // Function to display the rental invoice
     void rentCar(const Car* car) const {
-        cout << "Customer: " << name << " has rented " << car->getBrand() << " " 
+        cout << "Customer: " << name << " has rented " << car->getBrand() << " "
              << car->getModel() << " for " << hours << " hours." << endl;
         cout << "Total Rental Cost: ₹" << car->getRentalPricePerHour() * hours << endl;
     }
