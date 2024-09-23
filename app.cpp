@@ -1,48 +1,72 @@
-#include <cmath>
-#include <cstdio>
-#include <vector>
 #include <iostream>
-#include <algorithm>
-// #include <unistd.h>
-// #include <ctime>
-// #include <fstream>
+#include <string>
 #include <iomanip>
 
 using namespace std;
 
 // Class Car
 class Car {
-public:
-    public:
+private:
     string model;
     string brand;
     double basePrice;
 
     static int totalCars;
 
-    // constructer fir class Car
-    Car(string brand = "", string model = "", double basePrice = 0.0){
+public:
+    // Constructor for class Car
+    Car(string brand = "", string model = "", double basePrice = 0.0) {
         this->brand = brand;
         this->model = model;
         this->basePrice = basePrice;
-
         totalCars++;
     }
 
-    // Decrement totalCars when a car object is deleted
+    // Destructor to decrement totalCars when a car object is deleted
     ~Car() {
-        totalCars--; 
+        totalCars--;
     }
 
-    // Funtion to calculate rental price per hour
-    double getRentalPricePerHour() {
-        return this->basePrice + 300.0;
+    // Getter for rental price per hour
+    double getRentalPricePerHour() const {
+        return basePrice + 300.0;
     }
 
-    // Funtion to Display the details of the cars
-    void displayCarDetails() {
-        cout << "Brand: " << this->brand << "\nModel: " << this->model << "\nBase Price: ₹" << this->basePrice 
-             << "\nRental Price per Hour: ₹" << this->getRentalPricePerHour() << endl;
+    // Getter for brand
+    string getBrand() const {
+        return brand;
+    }
+
+    // Getter for model
+    string getModel() const {
+        return model;
+    }
+
+    // Getter for base price
+    double getBasePrice() const {
+        return basePrice;
+    }
+
+    // Setter for brand
+    void setBrand(const string& newBrand) {
+        brand = newBrand;
+    }
+
+    // Setter for model
+    void setModel(const string& newModel) {
+        model = newModel;
+    }
+
+    // Setter for base price
+    void setBasePrice(double newBasePrice) {
+        basePrice = newBasePrice;
+    }
+
+    // Function to display car details
+    void displayCarDetails() const {
+        cout << "Brand: " << brand << "\nModel: " << model
+             << "\nBase Price: ₹" << basePrice 
+             << "\nRental Price per Hour: ₹" << getRentalPricePerHour() << endl;
     }
 
     // Static function to display the total number of cars
@@ -55,15 +79,42 @@ int Car::totalCars = 0;
 
 // Class Customer
 class Customer {
-public:
+private:
     string name;
     int hours;
 
-    // Funtion to Display invoice
-    void rentCar(Car* car) {
-        cout << "Customer: " << this->name << " has rented " << car->brand << " " << car->model 
-             << " for " << this->hours << " hours." << endl;
-        cout << "Total Rental Cost: ₹" << car->getRentalPricePerHour() * this->hours << endl;
+public:
+    // Constructor for class Customer
+    Customer(string name = "", int hours = 0) {
+        this->name = name;
+        this->hours = hours;
+    }
+
+    // Getter for name
+    string getName() const {
+        return name;
+    }
+
+    // Getter for rental hours
+    int getHours() const {
+        return hours;
+    }
+
+    // Setter for name
+    void setName(const string& newName) {
+        name = newName;
+    }
+
+    // Setter for hours
+    void setHours(int newHours) {
+        hours = newHours;
+    }
+
+    // Function to display the rental invoice
+    void rentCar(const Car* car) const {
+        cout << "Customer: " << name << " has rented " << car->getBrand() << " " 
+             << car->getModel() << " for " << hours << " hours." << endl;
+        cout << "Total Rental Cost: ₹" << car->getRentalPricePerHour() * hours << endl;
     }
 };
 
@@ -77,8 +128,8 @@ void displayAllCars(Car** cars, int numberOfCars) {
     }
 }
 
-// Function to add a new car in the list
-void addCar(Car** &cars, int &numberOfCars, int &capacity) {
+// Function to add a new car to the list
+void addCar(Car**& cars, int& numberOfCars, int& capacity) {
     if (numberOfCars == capacity) {
         capacity *= 2;
         Car** temp = new Car*[capacity];
@@ -102,10 +153,9 @@ void addCar(Car** &cars, int &numberOfCars, int &capacity) {
     numberOfCars++;
 }
 
-
-//authentication function to idenfiy admin
+// Authentication function to identify admin
 bool authenticateAdmin() {
-    string adminPassword = "admin123"; // Set a simple password for demonstration
+    string adminPassword = "admin123"; 
     string inputPassword;
 
     cout << "Enter admin password to access admin features: ";
@@ -133,7 +183,7 @@ int main() {
     cars[5] = new Car("Honda", "Civic", 1600);
     cars[6] = new Car("Mahindra", "XUV 3XO", 1600);
     cars[7] = new Car("Ford", "Focus", 1700);
-    
+
     Car::displayTotalCars();
 
     // Check for admin
@@ -162,10 +212,12 @@ int main() {
 
     // Object of Customer class
     Customer customer1;
-    cin.ignore(); 
+    cin.ignore(); // To clear the input buffer after the previous input
 
+    string customerName;
     cout << "\nEnter customer name: ";
-    getline(cin, customer1.name);
+    getline(cin, customerName);
+    customer1.setName(customerName); 
 
     // User's option to choose the car
     int choice;
@@ -176,11 +228,13 @@ int main() {
         cout << "Invalid choice. Exiting program." << endl;
         return 1;
     }
-    
-    cout << "Enter number of rental hours: ";
-    cin >> customer1.hours;
 
-    // invoice
+    int rentalHours;
+    cout << "Enter number of rental hours: ";
+    cin >> rentalHours;
+    customer1.setHours(rentalHours); 
+
+    // Invoice
     Car* chosenCar = cars[choice - 1];
     cout << "\nRental Information:\n";
     customer1.rentCar(chosenCar);
@@ -191,5 +245,5 @@ int main() {
     }
     delete[] cars;
 
-  return 0;
+    return 0;
 }
