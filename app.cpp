@@ -25,6 +25,7 @@ public:
     // Destructor to decrement totalCars when a car object is deleted
     ~Car() {
         totalCars--;
+        cout << "Car object with brand " << brand << " and model " << model << " destroyed." << endl;
     }
 
     // Getter for rental price per hour
