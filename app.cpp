@@ -4,63 +4,40 @@
 
 using namespace std;
 
-// Class Car
-class Car {
-private:
+class Vehicle {
+protected:
     string model;
     string brand;
     double basePrice;
 
+public:
+    Vehicle(string brand = "", string model = "", double basePrice = 0.0) 
+        : brand(brand), model(model), basePrice(basePrice) {}
+
+    string getBrand() const { return brand; }
+    string getModel() const { return model; }
+    double getBasePrice() const { return basePrice; }
+};
+
+// Class Car
+class Car: public Vehicle  {
+private:
     static int totalCars;
 
 public:
     // Constructor for class Car
-    Car(string brand = "", string model = "", double basePrice = 0.0) {
-        this->brand = brand;
-        this->model = model;
-        this->basePrice = basePrice;
+    Car(string brand = "", string model = "", double basePrice = 0.0) : Vehicle(brand, model, basePrice) {
         totalCars++;
     }
 
     // Destructor to decrement totalCars when a car object is deleted
     ~Car() {
         totalCars--;
-        cout << "Car object with brand " << brand << " and model " << model << " destroyed." << endl;
     }
 
     // Getter for rental price per hour
     double getRentalPricePerHour() const {
         return basePrice + 300.0;
-    }
-
-    // Getter for brand (marked as const)
-    string getBrand() const {
-        return brand;
-    }
-
-    // Getter for model (marked as const)
-    string getModel() const {
-        return model;
-    }
-
-    // Getter for base price
-    double getBasePrice() const {
-        return basePrice;
-    }
-
-    // Setter for brand
-    void setBrand(const string& newBrand) {
-        brand = newBrand;
-    }
-
-    // Setter for model
-    void setModel(const string& newModel) {
-        model = newModel;
-    }
-
-    // Setter for base price
-    void setBasePrice(double newBasePrice) {
-        basePrice = newBasePrice;
     }
 
     // Function to display car details
@@ -77,6 +54,16 @@ public:
 };
 
 int Car::totalCars = 0;
+
+class RentalVehicle : public Car {
+public:
+    RentalVehicle(string brand = "", string model = "", double basePrice = 0.0) 
+        : Car(brand, model, basePrice) {}
+
+    double calculateRentalCost(int hours) const {
+        return getRentalPricePerHour() * hours;
+    }
+};
 
 // Class Customer
 class Customer {
@@ -120,7 +107,7 @@ public:
 };
 
 // Function to display all available cars
-void displayAllCars(Car** cars, int numberOfCars) {
+void displayAllCars(RentalVehicle** cars, int numberOfCars) {
     cout << "Available cars:\n";
     for (int i = 0; i < numberOfCars; i++) {
         cout << i + 1 << ". ";
@@ -130,10 +117,10 @@ void displayAllCars(Car** cars, int numberOfCars) {
 }
 
 // Function to add a new car to the list
-void addCar(Car**& cars, int& numberOfCars, int& capacity) {
+void addCar(RentalVehicle**& cars, int& numberOfCars, int& capacity) {
     if (numberOfCars == capacity) {
         capacity *= 2;
-        Car** temp = new Car*[capacity];
+        RentalVehicle** temp = new RentalVehicle*[capacity];
         for (int i = 0; i < numberOfCars; i++) {
             temp[i] = cars[i];
         }
@@ -150,7 +137,7 @@ void addCar(Car**& cars, int& numberOfCars, int& capacity) {
     cout << "Enter base price: ";
     cin >> price;
 
-    cars[numberOfCars] = new Car(brand, model, price);
+    cars[numberOfCars] = new RentalVehicle(brand, model, price);
     numberOfCars++;
 }
 
@@ -175,15 +162,15 @@ int main() {
     int capacity = 20;
 
     // Dynamically allocating memory for an array of Car objects
-    Car** cars = new Car*[capacity];
-    cars[0] = new Car("Tata", "Curvv EV", 1300);
-    cars[1] = new Car("Maruti", "Fronx", 1300);
-    cars[2] = new Car("Tata", "Punch", 1400);
-    cars[3] = new Car("Citroen", "Basalt", 1400);
-    cars[4] = new Car("Toyota", "Corolla", 1500);
-    cars[5] = new Car("Honda", "Civic", 1600);
-    cars[6] = new Car("Mahindra", "XUV 3XO", 1600);
-    cars[7] = new Car("Ford", "Focus", 1700);
+    RentalVehicle** cars = new RentalVehicle*[capacity];
+    cars[0] = new RentalVehicle("Tata", "Curvv EV", 1300);
+    cars[1] = new RentalVehicle("Maruti", "Fronx", 1300);
+    cars[2] = new RentalVehicle("Tata", "Punch", 1400);
+    cars[3] = new RentalVehicle("Citroen", "Basalt", 1400);
+    cars[4] = new RentalVehicle("Toyota", "Corolla", 1500);
+    cars[5] = new RentalVehicle("Honda", "Civic", 1600);
+    cars[6] = new RentalVehicle("Mahindra", "XUV 3XO", 1600);
+    cars[7] = new RentalVehicle("Ford", "Focus", 1700);
 
     Car::displayTotalCars();
 
@@ -236,7 +223,7 @@ int main() {
     customer1.setHours(rentalHours); 
 
     // Invoice
-    Car* chosenCar = cars[choice - 1];
+    RentalVehicle* chosenCar = cars[choice - 1];
     cout << "\nRental Information:\n";
     customer1.rentCar(chosenCar);
 
