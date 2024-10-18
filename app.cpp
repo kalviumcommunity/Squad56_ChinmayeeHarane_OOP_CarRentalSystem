@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <algorithm>
 
 using namespace std;
 
@@ -104,6 +105,11 @@ public:
              << car->getModel() << " for " << hours << " hours." << endl;
         cout << "Total Rental Cost: ₹" << car->getRentalPricePerHour() * hours << endl;
     }
+
+    void rentCar(const string& brand, const string& model) const {
+        cout << "Customer: " << name << " has rented a " << brand << " "
+             << model << " for " << hours << " hours." << endl;
+    }
 };
 
 // Function to display all available cars
@@ -200,7 +206,7 @@ int main() {
 
     // Object of Customer class
     Customer customer1;
-    cin.ignore(); // To clear the input buffer after the previous input
+    cin.ignore(); 
 
     string customerName;
     cout << "\nEnter customer name: ";
