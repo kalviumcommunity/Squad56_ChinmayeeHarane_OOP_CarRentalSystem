@@ -18,6 +18,8 @@ public:
     string getBrand() const { return brand; }
     string getModel() const { return model; }
     double getBasePrice() const { return basePrice; }
+
+    virtual double getRentalPricePerHour() const = 0;
 };
 
 // Class Car
@@ -37,7 +39,7 @@ public:
     }
 
     // Getter for rental price per hour
-    double getRentalPricePerHour() const {
+    double getRentalPricePerHour() const override{
         return basePrice + 300.0;
     }
 
@@ -100,7 +102,7 @@ public:
     }
 
     // Function to display the rental invoice
-    void rentCar(const Car* car) const {
+    void rentCar(const Vehicle* car) const {
         cout << "Customer: " << name << " has rented " << car->getBrand() << " "
              << car->getModel() << " for " << hours << " hours." << endl;
         cout << "Total Rental Cost: ₹" << car->getRentalPricePerHour() * hours << endl;
