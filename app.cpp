@@ -76,10 +76,7 @@ private:
 
 public:
     // Constructor for class Customer
-    Customer(string name = "", int hours = 0) {
-        this->name = name;
-        this->hours = hours;
-    }
+    Customer(string name = "", int hours = 0) : name(name), hours(hours) {}
 
     // Getter for name
     string getName() const {
@@ -100,17 +97,30 @@ public:
     void setHours(int newHours) {
         hours = newHours;
     }
+};
 
-    // Function to display the rental invoice
-    void rentCar(const Vehicle* car) const {
-        cout << "Customer: " << name << " has rented " << car->getBrand() << " "
-             << car->getModel() << " for " << hours << " hours." << endl;
-        cout << "Total Rental Cost: ₹" << car->getRentalPricePerHour() * hours << endl;
-    }
+// class Invoice {
+// public:
+//     // Function to display the rental invoice
+//     void rentCar(const Vehicle* car) const {
+//         cout << "Customer: " << name << " has rented " << car->getBrand() << " "
+//              << car->getModel() << " for " << hours << " hours." << endl;
+//         cout << "Total Rental Cost: ₹" << car->getRentalPricePerHour() * hours << endl;
+//     }
 
-    void rentCar(const string& brand, const string& model) const {
-        cout << "Customer: " << name << " has rented a " << brand << " "
-             << model << " for " << hours << " hours." << endl;
+//     void rentCar(const string& brand, const string& model) const {
+//         cout << "Customer: " << name << " has rented a " << brand << " "
+//              << model << " for " << hours << " hours." << endl;
+//     }
+// };
+
+class Invoice {
+public:
+    void generateInvoice(const Customer& customer, const Vehicle* car) const {
+        cout << "Customer: " << customer.getName() << " has rented " 
+             << car->getBrand() << " " << car->getModel() 
+             << " for " << customer.getHours() << " hours." << endl;
+        cout << "Total Rental Cost: ₹" << car->getRentalPricePerHour() * customer.getHours() << endl;
     }
 };
 
@@ -231,9 +241,10 @@ int main() {
     customer1.setHours(rentalHours); 
 
     // Invoice
+    Invoice invoice;
     RentalVehicle* chosenCar = cars[choice - 1];
     cout << "\nRental Information:\n";
-    customer1.rentCar(chosenCar);
+    invoice.generateInvoice(customer1 ,chosenCar);
 
     // Freeing the dynamically allocated memory
     for (int i = 0; i < numberOfCars; i++) {
