@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
-#include <algorithm>
 
 using namespace std;
 
@@ -22,35 +21,29 @@ public:
     virtual double getRentalPricePerHour() const = 0;
 };
 
-// Class Car
-class Car: public Vehicle  {
+class Car: public Vehicle {
 private:
     static int totalCars;
 
 public:
-    // Constructor for class Car
     Car(string brand = "", string model = "", double basePrice = 0.0) : Vehicle(brand, model, basePrice) {
         totalCars++;
     }
 
-    // Destructor to decrement totalCars when a car object is deleted
     ~Car() {
         totalCars--;
     }
 
-    // Getter for rental price per hour
     double getRentalPricePerHour() const override{
         return basePrice + 300.0;
     }
 
-    // Function to display car details
     void displayCarDetails() const {
-        cout << "Brand: " << brand << "\nModel: " << model
+        cout << "Car Brand: " << brand << "\nModel: " << model
              << "\nBase Price: ₹" << basePrice 
              << "\nRental Price per Hour: ₹" << getRentalPricePerHour() << endl;
     }
 
-    // Static function to display the total number of cars
     static void displayTotalCars() {
         cout << "Total cars in the system: " << totalCars << endl;
     }
@@ -68,51 +61,42 @@ public:
     }
 };
 
-// Class bike
 class Bike : public Vehicle {
 public:
     Bike(string brand = "", string model = "", double basePrice = 0.0) 
         : Vehicle(brand, model, basePrice) {}
 
-    // A different rental price formula for bikes
     double getRentalPricePerHour() const override {
-        return basePrice + 150.0; // Bikes are cheaper than cars
+        return basePrice + 150.0;
     }
 
-    // Function to display bike details
     void displayBikeDetails() const {
-        cout << "Brand: " << brand << "\nModel: " << model
+        cout << "Bike Brand: " << brand << "\nModel: " << model
              << "\nBase Price: ₹" << basePrice 
              << "\nRental Price per Hour: ₹" << getRentalPricePerHour() << endl;
     }
 };
 
-// Class Customer
 class Customer {
 private:
     string name;
     int hours;
 
 public:
-    // Constructor for class Customer
     Customer(string name = "", int hours = 0) : name(name), hours(hours) {}
 
-    // Getter for name
     string getName() const {
         return name;
     }
 
-    // Getter for rental hours
     int getHours() const {
         return hours;
     }
 
-    // Setter for name
     void setName(const string& newName) {
         name = newName;
     }
 
-    // Setter for hours
     void setHours(int newHours) {
         hours = newHours;
     }
@@ -120,15 +104,14 @@ public:
 
 class Invoice {
 public:
-    void generateInvoice(const Customer& customer, const Vehicle* car) const {
+    void generateInvoice(const Customer& customer, const Vehicle* vehicle) const {
         cout << "Customer: " << customer.getName() << " has rented " 
-             << car->getBrand() << " " << car->getModel() 
+             << vehicle->getBrand() << " " << vehicle->getModel() 
              << " for " << customer.getHours() << " hours." << endl;
-        cout << "Total Rental Cost: ₹" << car->getRentalPricePerHour() * customer.getHours() << endl;
+        cout << "Total Rental Cost: ₹" << vehicle->getRentalPricePerHour() * customer.getHours() << endl;
     }
 };
 
-// Function to display all available cars
 void displayAllCars(RentalVehicle** cars, int numberOfCars) {
     cout << "Available cars:\n";
     for (int i = 0; i < numberOfCars; i++) {
@@ -138,7 +121,6 @@ void displayAllCars(RentalVehicle** cars, int numberOfCars) {
     }
 }
 
-// Function to display available bikes
 void displayAllBikes(Bike** bikes, int numberOfBikes) {
     cout << "Available bikes:\n";
     for (int i = 0; i < numberOfBikes; i++) {
@@ -148,7 +130,6 @@ void displayAllBikes(Bike** bikes, int numberOfBikes) {
     }
 }
 
-// Function to add a new car to the list
 void addCar(RentalVehicle**& cars, int& numberOfCars, int& capacity) {
     if (numberOfCars == capacity) {
         capacity *= 2;
@@ -173,7 +154,6 @@ void addCar(RentalVehicle**& cars, int& numberOfCars, int& capacity) {
     numberOfCars++;
 }
 
-// Function to add a new bike to the list
 void addBike(Bike**& bikes, int& numberOfBikes, int& capacity) {
     if (numberOfBikes == capacity) {
         capacity *= 2;
@@ -198,7 +178,6 @@ void addBike(Bike**& bikes, int& numberOfBikes, int& capacity) {
     numberOfBikes++;
 }
 
-// Authentication function to identify admin
 bool authenticateAdmin() {
     string adminPassword = "admin123"; 
     string inputPassword;
@@ -218,7 +197,6 @@ int main() {
     int numberOfCars = 8;
     int capacity = 20;
 
-    // Dynamically allocating memory for an array of Car objects
     RentalVehicle** cars = new RentalVehicle*[capacity];
     cars[0] = new RentalVehicle("Tata", "Curvv EV", 1300);
     cars[1] = new RentalVehicle("Maruti", "Fronx", 1300);
@@ -235,7 +213,6 @@ int main() {
     int bikeCapacity = 5;
     Bike** bikes = new Bike*[bikeCapacity];
 
-    // Check for admin
     char isAdmin;
     cout << "Are you an admin? (y/n): ";
     cin >> isAdmin;
@@ -262,31 +239,23 @@ int main() {
         }
     }
 
-    // Displaying the available cars
     displayAllCars(cars, numberOfCars);
-
-    // Displaying the available bikes
     displayAllBikes(bikes, numberOfBikes);
 
-
-    // Display the updated total number of cars
     Car::displayTotalCars();
 
-    // Object of Customer class
     Customer customer1;
-    cin.ignore(); 
+    cin.ignore();
 
     string customerName;
     cout << "\nEnter customer name: ";
     getline(cin, customerName);
-    customer1.setName(customerName); 
+    customer1.setName(customerName);
 
-    // User's option to choose the vehicle type
     int vehicleTypeChoice;
     cout << "\nChoose vehicle type:\n1. Car\n2. Bike\n";
     cin >> vehicleTypeChoice;
 
-    // User's option to choose the car
     int choice;
     if (vehicleTypeChoice == 1) {
         cout << "\nChoose a car by entering the corresponding number: ";
@@ -302,29 +271,21 @@ int main() {
             cout << "Invalid choice. Exiting program." << endl;
             return 1;
         }
-    } else {
-        cout << "Invalid vehicle type. Exiting program." << endl;
-        return 1;
     }
 
     int rentalHours;
-    cout << "Enter number of rental hours: ";
+    cout << "Enter the number of hours for rental: ";
     cin >> rentalHours;
-    customer1.setHours(rentalHours); 
+    customer1.setHours(rentalHours);
 
-    // Invoice
     Invoice invoice;
     if (vehicleTypeChoice == 1) {
-        RentalVehicle* chosenCar = cars[choice - 1];
-        cout << "\nRental Information:\n";
-        invoice.generateInvoice(customer1, chosenCar);
-    } else {
-        Bike* chosenBike = bikes[choice - 1];
-        cout << "\nRental Information:\n";
-        invoice.generateInvoice(customer1, chosenBike);
+        invoice.generateInvoice(customer1, cars[choice - 1]);
+    } else if (vehicleTypeChoice == 2) {
+        invoice.generateInvoice(customer1, bikes[choice - 1]);
     }
 
-    // Freeing the dynamically allocated memory
+    // Clean up memory
     for (int i = 0; i < numberOfCars; i++) {
         delete cars[i];
     }
